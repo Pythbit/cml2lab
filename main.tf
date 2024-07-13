@@ -53,8 +53,8 @@ resource "cml2_node" "lab_devices" {
 resource "cml2_link" "lab_connections" {
   count = length(jsondecode(data.http.nb_cables.response_body).results)
   lab_id = resource.cml2_node.lab_devices["${jsondecode(data.http.nb_cables.response_body).results[count.index].a_terminations[0].object.device.name}"].lab_id
-  node_a = jsondecode(data.http.nb_cables.response_body).results[count.index].a_terminations[0].object.device.name
+  node_a = resource.cml2_node.lab_devices["${jsondecode(data.http.nb_cables.response_body).results[count.index].a_terminations[0].object.device.name}"].node_id
   slot_a = split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].a_terminations[0].object.name)[0] == "port" ? "0" : split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].a_terminations[0].object.name)[1]
-  node_b = jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.device.name
+  node_b = resource.cml2_node.lab_devices["${jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.device.name}"].node_id
   slot_b = split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.name)[0] == "port" ? "0" : split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.name)[1]
 }
