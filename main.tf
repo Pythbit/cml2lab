@@ -60,6 +60,8 @@ resource "cml2_link" "lab_connections" {
 }
 
 resource "cml2_lifecycle" "startup" {
+  for_each = resource.cml2_lab.lab_labs
+  lab_id = each.value["lab_id"]
   staging = {
     stages = ["blank"]
     start_remaining = true
