@@ -58,3 +58,10 @@ resource "cml2_link" "lab_connections" {
   node_b = resource.cml2_node.lab_devices["${jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.device.name}"].id
   slot_b = split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.name)[0] == "port" ? "0" : split("/",jsondecode(data.http.nb_cables.response_body).results[count.index].b_terminations[0].object.name)[1]
 }
+
+resource "cml2_lifecycle" "startup" {
+  staging = {
+    stages = ["blank"]
+    start_remaining = true
+  }
+}
