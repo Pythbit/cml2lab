@@ -21,10 +21,10 @@ jobs:
     
 # Checkout Repository
     - name : Check out Git Repository
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v4
       
 # TFLint - Terraform Check
-    - uses: actions/cache@v2
+    - uses: actions/cache@v4
       name: Cache plugin dir
       with:
         path: ~/.tflint.d/plugins
