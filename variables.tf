@@ -15,12 +15,12 @@ variable "cml_address" {
 
 variable "cml_user" {
   type        = string
-  description = "CML API Token"
+  description = "CML Username"
 }
 
 variable "cml_pass" {
   type        = string
   sensitive   = true
-  description = "CML API Token"
+  description = "CML Password"
 }
 
