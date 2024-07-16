@@ -7,4 +7,4 @@
 
 # Ansible filters
 *vault*
-netbox_inventory.yaml
+netbox_inventory.yml
