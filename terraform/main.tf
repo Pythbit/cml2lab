@@ -23,7 +23,7 @@ data "netbox_site" "nb_sites" {
 data "http" "nb_configs" {
   for_each = { for device in data.netbox_devices.nb_devices.devices : device.device_id => device.device_id }
 
-  url    = "${var.nb_address}/api/dcim/devices/${each.key}/render-config/"
+  url    = "${var.nb_address}/api/dcim/devices/${each.value}/render-config/"
   method = "POST"
   request_headers = {
     Authorization = "Token ${var.nb_token}"
@@ -62,7 +62,7 @@ resource "cml2_node" "lab_devices" {
 }
 
 resource "cml2_link" "lab_connections" {
-  for_each = { for k, v in jsondecode(data.http.nb_cables.response_body).results : k => v if v.status.value == "connected" }
+  for_each = { for cables, objects in jsondecode(data.http.nb_cables.response_body).results : cables => objects if objects.status.value == "connected" }
 
   lab_id = resource.cml2_node.lab_devices[each.value.a_terminations[0].object.device.name].lab_id
   node_a = resource.cml2_node.lab_devices[each.value.a_terminations[0].object.device.name].id

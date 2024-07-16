@@ -1,5 +1,4 @@
-# Source: https://medium.com/@nanditasahu031/how-to-use-different-tools-to-do-terraform-checks-in-github-actions-b16e9fa73c42
-name: Tflint Checks on Terraform Code
+name: TF and Ansible linting
     
 on:
   pull_request:
@@ -15,7 +14,7 @@ on:
 permissions: read-all
 
 jobs:
-  tflint-checks:
+  lint:
     runs-on: ubuntu-latest
     steps:
     
@@ -23,13 +22,7 @@ jobs:
     - name : Check out Git Repository
       uses: actions/checkout@v4
       
-# TFLint - Terraform Check
-    - uses: actions/cache@v4
-      name: Cache plugin dir
-      with:
-        path: ~/.tflint.d/plugins
-        key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
-
+# TFLint - Setup Teraform
     - uses: terraform-linters/setup-tflint@v4
       name: Setup TFLint
       with:
@@ -39,10 +32,10 @@ jobs:
     - name: Show version
       run: tflint --version
       
-# Install plugins
-    - name: Init TFLint
-      run: tflint --init
-      
-# Run tflint command in each directory recursively # use --force if you want to continue with workflow although errors are there
+# Run tflint command in each directory recursively
     - name: Run TFLint
       run: tflint -f compact --recursive 
+
+# Runs ansible-lint
+    - name: Run ansible-lint
+      uses: ansible/ansible-lint@main
