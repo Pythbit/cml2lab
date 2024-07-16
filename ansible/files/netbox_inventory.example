@@ -1,0 +1,13 @@
+# Move this to plugins/inventory and enter endpoint and token
+plugin: netbox.netbox.nb_inventory
+api_endpoint: < netbox_url >
+token: < netbox_api_token >
+config_context: false
+flatten_custom_fields: true
+group_by:
+ - sites
+ - device_roles
+ - platforms
+device_query_filters:
+  - has_primary_ip: true
+  - status: active

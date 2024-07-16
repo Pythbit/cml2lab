@@ -1,5 +1,10 @@
+# Terraform filters
 *.tfvars
 *.tfstate
 *.backup
 *.lock.hcl
 .terraform
+
+# Ansible filters
+*vault*
+netbox_inventory.yaml
