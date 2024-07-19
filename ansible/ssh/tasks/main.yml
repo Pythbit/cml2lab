@@ -1,2 +1,7 @@
 ---
 # Main file for the SSH role
+- name: SSH Configuration
+  ansible.builtin.import_tasks: configure_ssh.yml
+
+- name: Cleanup Telnet
+  ansible.builtin.import_tasks: clean_telnet.yml

@@ -2,5 +2,7 @@
 # vault variables stored in vault file in same directory
 ansible_connection: network_cli
 ansible_user: "{{ vault_ansible_user }}"
+ansible_telnet_user: "{{ vault_ansible_telnet_user }}"
 ansible_telnet_pass: "{{ vault_ansible_telnet_pass }}"
 ansible_private_key_file: "{{ vault_private_key }}"
+domain_name: mydomain.local

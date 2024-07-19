@@ -1,0 +1,23 @@
+---
+# Configure SSH on IOSv Devices
+- name: Configure SSH
+  ansible.netcommon.telnet:
+    user: "{{ ansible_telnet_user }}"
+    password: "{{ ansible_telnet_pass }}"
+    login_prompt: "Username: "
+    prompts:
+      - "[>#]"
+    commands:
+      - configure terminal
+      - ip domain name {{ domain_name }}
+      - crypto key generate ec size 256
+      - ip ssh version 2
+      - line vty 0 15
+      - transport input telnet ssh
+
+- name: Add SSH user
+  cisco.ios.ios_user:
+    name: ansible_ssh
+    nopassword: true
+    sshkey: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+    state: present

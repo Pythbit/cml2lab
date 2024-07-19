@@ -8,3 +8,6 @@
 # Ansible filters
 *vault*
 netbox_inventory.yml
+
+# Vscode
+.vscode

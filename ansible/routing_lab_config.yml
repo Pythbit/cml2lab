@@ -1,0 +1,10 @@
+---
+# Remove Telnet if SSH exists on IOSv
+- name: Routing Lab Configuration Playbook
+  gather_facts: false
+  hosts: sites_routing_lab
+
+  tasks:
+    - name: Configure SSH
+      ansible.builtin.import_role:
+        name: ssh
