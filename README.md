@@ -34,4 +34,4 @@ Resources will only be created if they're 'Active' (labs, nodes) or 'Connected' 
 
 ## License
 
-This project is licensed under the GPL2 License
+This project is licensed under the MIT License
