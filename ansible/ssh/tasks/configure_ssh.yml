@@ -1,7 +1,7 @@
 ---
 # Configure SSH on IOSv Devices
 - name: Check Telnet
-  wait_for: 
+  ansible.builtin.wait_for:
     port: 23
     timeout: 5
     msg: Telnet not open on {{ inventory_hostname }}
@@ -23,7 +23,7 @@
       - line vty 0 {{ max_vty_lines }}
       - transport input telnet ssh
       - username {{ ansible_ssh_user }} privilege 15 secret {{ ansible_ssh_pass }}
-  when: telnet_check.failed == false
+  when: not telnet_check.failed
 
 - name: Verify SSH enabled
   cisco.ios.ios_command:
