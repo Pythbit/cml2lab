@@ -30,12 +30,24 @@ data "http" "nb_configs" {
   }
 }
 
+data "http" "nb_interfaces" {
+  url    = "${var.nb_address}/api/dcim/interfaces/"
+  method = "GET"
+  request_headers = {
+    Authorization = "Token ${var.nb_token}"
+  }
+}
+
 data "http" "nb_cables" {
   url    = "${var.nb_address}/api/dcim/cables/"
   method = "GET"
   request_headers = {
     Authorization = "Token ${var.nb_token}"
   }
+}
+
+locals {
+  nb_interfaces = { for interf in jsondecode(data.http.nb_interfaces.response_body).results : interf.id => interf }
 }
 
 resource "cml2_lab" "lab_labs" {
@@ -66,11 +78,9 @@ resource "cml2_link" "lab_connections" {
 
   lab_id = resource.cml2_node.lab_devices[each.value.a_terminations[0].object.device.name].lab_id
   node_a = resource.cml2_node.lab_devices[each.value.a_terminations[0].object.device.name].id
-  slot_a = (strcontains(each.value.a_terminations[0].object.name, "Ethernet") ?
-  reverse(split("/", each.value.a_terminations[0].object.name))[0] : "0")
+  slot_a = local.nb_interfaces[each.value.a_terminations[0].object_id].custom_fields.cml_slot_no
   node_b = resource.cml2_node.lab_devices[each.value.b_terminations[0].object.device.name].id
-  slot_b = (strcontains(each.value.b_terminations[0].object.name, "Ethernet") ?
-  reverse(split("/", each.value.b_terminations[0].object.name))[0] : "0")
+  slot_b = local.nb_interfaces[each.value.b_terminations[0].object_id].custom_fields.cml_slot_no
 
   lifecycle {
     precondition {
