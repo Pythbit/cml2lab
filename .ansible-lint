@@ -1,9 +1,11 @@
 exclude_paths:
   - .github/
   - terraform/
+  - .ansible-lint
+  - README.md
 
-# ansible-lint isn't detecting these modules
-# And I'm too lazy to find out why
+# ansible-lint isn't detecting these modules on github
+# and I'm too lazy to find out why
 mock_modules:
   - ansible.netcommon.telnet
   - cisco.ios.ios_command
