@@ -2,7 +2,8 @@ exclude_paths:
   - .github/
   - terraform/
 
-# ansible-lint isn't detecting this community module
+# ansible-lint isn't detecting these modules
 # And I'm too lazy to find out why
 mock_modules:
   - ansible.netcommon.telnet
+  - cisco.ios.ios_command
