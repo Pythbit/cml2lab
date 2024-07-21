@@ -1,6 +1,6 @@
 galaxy_info:
   author: pythbit
-  description: Personal SSH role
+  description: Personal OSPF role
   license: MIT
   min_ansible_version: 2.17.2
   standalone: true

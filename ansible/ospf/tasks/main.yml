@@ -1,0 +1,4 @@
+---
+# Main file for the OSPF role
+- name: Configure OSPF
+  ansible.builtin.import_tasks: configure_ospf.yml
