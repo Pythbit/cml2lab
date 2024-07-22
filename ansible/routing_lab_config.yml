@@ -1,10 +1,21 @@
 ---
 # Remove Telnet if SSH exists on IOSv
-- name: Routing Lab Configuration Playbook
+- name: Configure SSH
   gather_facts: false
   hosts: sites_routing_lab
 
   tasks:
-    - name: Configure SSH
+    - name: Import SSH role
       ansible.builtin.import_role:
         name: ssh
+
+- name: Configure OSPF
+  gather_facts: false
+  hosts: sites_routing_lab
+
+  tasks:
+    - name: Import OSPF role
+      ansible.builtin.include_role:
+        name: ospf
+      when: inventory_hostname in groups['device_roles_edge_router'] or
+            inventory_hostname in groups['device_roles_core_switch']

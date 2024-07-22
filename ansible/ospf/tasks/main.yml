@@ -1,4 +1,45 @@
 ---
-# Main file for the OSPF role
-- name: Configure OSPF
-  ansible.builtin.import_tasks: configure_ospf.yml
+# Configure OSPF on devices
+- name: Configure basic OSPF
+  cisco.ios.ios_ospfv2:
+    config:
+      processes:
+        - process_id: 1
+          areas:
+            - area_id: 0
+          default_information:
+            originate: true
+          passive_interfaces:
+            default: true
+
+- name: Configure interfaces
+  cisco.ios.ios_ospfv2:
+    config:
+      processes:
+        - process_id: 1
+          passive_interfaces:
+            interface:
+              name:
+                - "{{ item.display }}"
+              set_interface: false
+  loop: "{{ interfaces }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - "'ospf-interface' in item.tags"
+
+- name: Configure networks
+  cisco.ios.ios_ospfv2:
+    config:
+      processes:
+        - process_id: 1
+          network:
+            - address: "{{ item.prefix | ansible.utils.ipaddr('network') }}"
+              area: 0
+              wildcard_bits: "{{ item.prefix | ansible.utils.ipaddr('hostmask') }}"
+  loop: "{{ sites[0].prefixes }}"
+  loop_control:
+    label: "{{ item.prefix }}"
+  when:
+    - item.role != None
+    - item.role.slug == 'site-subnet'
