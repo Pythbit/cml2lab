@@ -21,7 +21,7 @@
       - ip domain name {{ domain_name }}
       - crypto key generate rsa modulus 2048
       - ip ssh version 2
-      - line vty 0 {{ max_vty_lines }}
+      - line vty 0 4
       - transport input telnet ssh
       - username {{ ansible_ssh_user }} privilege 15 secret {{ ansible_ssh_pass }}
   when: not telnet_check.failed
@@ -42,5 +42,5 @@
   cisco.ios.ios_command:
     commands:
       - configure terminal
-      - line vty 0 {{ max_vty_lines }}
+      - line vty 0 4
       - transport input ssh

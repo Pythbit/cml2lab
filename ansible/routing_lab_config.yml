@@ -1,5 +1,5 @@
 ---
-# Remove Telnet if SSH exists on IOSv
+# Configuration playbook for Routing Lab
 - name: Configure SSH
   gather_facts: false
   hosts: sites_routing_lab
