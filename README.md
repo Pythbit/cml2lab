@@ -19,6 +19,10 @@ Netbox is the main data source, and the idea is to have all lab and device infor
 
 ### Details
 
+The ansible inventory plugin configuration I'm using is provided under files/netbox_inventory.example. Just move it under plugins/inventory, change it to .yml, and add the missing vars.
+
+There are vault variables in some group or host vars files. These need to be in a vault file somewhere.
+
 The following mappings are made between Netbox and CML:
 * Sites -> Labs
 * Devices -> Nodes
